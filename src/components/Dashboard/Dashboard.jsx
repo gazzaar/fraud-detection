@@ -111,7 +111,7 @@ const Dashboard = () => {
 
           <div className={styles.card}>
             <div className={styles.cardHeader}>
-              <WarningIcon className={styles.cardIcon} />
+              <WarningIcon className={styles.cardIcon} color="error" />
               <Typography className={styles.cardTitle}>
                 Active Alerts
               </Typography>
