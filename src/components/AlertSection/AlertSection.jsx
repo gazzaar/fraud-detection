@@ -1,12 +1,13 @@
 // import './AlertSection.css';
+import styles from './AlertSection.module.css';
 
 const AlertSection = () => {
   return (
-    <div className="alert-section">
-      <div className="alert-header">
-        <h3>Fraud Alerts</h3>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h3 className={styles.title}>Fraud Alerts</h3>
       </div>
-      <div className="alert-list">{/* Alert items will go here */}</div>
+      <div className={styles.list}>{/* Alert items will go here */}</div>
     </div>
   );
 };
