@@ -127,8 +127,25 @@ const Dashboard = () => {
         {/* Charts Section */}
         <Stack spacing={3} sx={{ mb: 4 }}>
           {/* Transaction Volume Chart */}
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
+          <Paper
+            sx={{
+              bgcolor: 'white',
+              borderRadius: '0.75rem',
+              p: 3,
+              mt: 4,
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+            }}
+          >
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{
+                fontSize: '1.25rem',
+                fontWeight: 600,
+                mb: 3,
+                color: '#2c3e50',
+              }}
+            >
               Transaction Volume (24h)
             </Typography>
             <ResponsiveContainer width="100%" height={300}>
@@ -157,11 +174,28 @@ const Dashboard = () => {
               </AreaChart>
             </ResponsiveContainer>
           </Paper>
-
           {/* Risk Distribution */}
           <Stack direction={{ xs: 'column', md: 'row' }} spacing={3}>
-            <Paper sx={{ p: 3, flex: 1 }}>
-              <Typography variant="h6" gutterBottom>
+            <Paper
+              sx={{
+                bgcolor: 'white',
+                borderRadius: '0.75rem',
+                p: 3,
+                mt: 4,
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+                flex: 1,
+              }}
+            >
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
+                  fontSize: '1.25rem',
+                  fontWeight: 600,
+                  mb: 3,
+                  color: '#2c3e50',
+                }}
+              >
                 Risk Distribution
               </Typography>
               <ResponsiveContainer width="100%" height={300}>
@@ -187,8 +221,26 @@ const Dashboard = () => {
             </Paper>
 
             {/* Fraud Detection Accuracy Trend */}
-            <Paper sx={{ p: 3, flex: 1 }}>
-              <Typography variant="h6" gutterBottom>
+            <Paper
+              sx={{
+                bgcolor: 'white',
+                borderRadius: '0.75rem',
+                p: 3,
+                mt: 4,
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+                flex: 1,
+              }}
+            >
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
+                  fontSize: '1.25rem',
+                  fontWeight: 600,
+                  mb: 3,
+                  color: '#2c3e50',
+                }}
+              >
                 Detection Accuracy Trend
               </Typography>
               <ResponsiveContainer width="100%" height={300}>
@@ -221,8 +273,25 @@ const Dashboard = () => {
 
         {/* Recent Transactions Table */}
         <Box>
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" sx={{ mb: 2 }}>
+          <Paper
+            sx={{
+              bgcolor: 'white',
+              borderRadius: '0.75rem',
+              p: 3,
+              mt: 4,
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+            }}
+          >
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{
+                fontSize: '1.25rem',
+                fontWeight: 600,
+                mb: 3,
+                color: '#2c3e50',
+              }}
+            >
               Recent Suspicious Transactions
             </Typography>
             <TableContainer>
