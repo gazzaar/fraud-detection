@@ -9,6 +9,7 @@ import NotFound from './components/NotFound/NotFound';
 import TransactionList from './components/TransactionList/TransactionList';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
+import DataUpload from './pages/DataUpload';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
               <Route path="alerts" element={<AlertSection />} />
               <Route path="*" element={<NotFound />} />
             </Route>
+            <Route path="/upload" element={<DataUpload />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
