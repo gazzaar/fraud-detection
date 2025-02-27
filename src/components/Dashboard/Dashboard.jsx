@@ -14,6 +14,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import { useTheme as useMUITheme } from '@mui/material/styles';
 import { useState } from 'react';
 import {
   Area,
@@ -33,6 +34,17 @@ import {
 import styles from './Dashboard.module.css';
 
 const Dashboard = () => {
+  const theme = useMUITheme();
+
+  // Update chart colors based on theme
+  const chartColors = {
+    normal: theme.palette.primary.main,
+    suspicious: theme.palette.error.main,
+    low: theme.palette.success.main,
+    medium: theme.palette.warning.main,
+    high: theme.palette.error.main,
+  };
+
   // Mock data - replace with actual API calls
   const [recentTransactions] = useState([
     {
@@ -69,9 +81,9 @@ const Dashboard = () => {
   ];
 
   const riskDistribution = [
-    { name: 'Low Risk', value: 70, color: '#82ca9d' },
-    { name: 'Medium Risk', value: 20, color: '#ffc658' },
-    { name: 'High Risk', value: 10, color: '#ff8042' },
+    { name: 'Low Risk', value: 70, color: chartColors.low },
+    { name: 'Medium Risk', value: 20, color: chartColors.medium },
+    { name: 'High Risk', value: 10, color: chartColors.high },
   ];
 
   return (
@@ -143,7 +155,7 @@ const Dashboard = () => {
                 fontSize: '1.25rem',
                 fontWeight: 600,
                 mb: 3,
-                color: '#2c3e50',
+                color: 'text.primary',
               }}
             >
               Transaction Volume (24h)
@@ -159,16 +171,16 @@ const Dashboard = () => {
                   type="monotone"
                   dataKey="normal"
                   stackId="1"
-                  stroke="#8884d8"
-                  fill="#8884d8"
+                  stroke={chartColors.normal}
+                  fill={chartColors.normal}
                   name="Normal Transactions"
                 />
                 <Area
                   type="monotone"
                   dataKey="suspicious"
                   stackId="1"
-                  stroke="#ff8042"
-                  fill="#ff8042"
+                  stroke={chartColors.suspicious}
+                  fill={chartColors.suspicious}
                   name="Suspicious Transactions"
                 />
               </AreaChart>
@@ -193,7 +205,7 @@ const Dashboard = () => {
                   fontSize: '1.25rem',
                   fontWeight: 600,
                   mb: 3,
-                  color: '#2c3e50',
+                  color: 'text.primary',
                 }}
               >
                 Risk Distribution
@@ -238,7 +250,7 @@ const Dashboard = () => {
                   fontSize: '1.25rem',
                   fontWeight: 600,
                   mb: 3,
-                  color: '#2c3e50',
+                  color: 'text.primary',
                 }}
               >
                 Detection Accuracy Trend
@@ -289,7 +301,7 @@ const Dashboard = () => {
                 fontSize: '1.25rem',
                 fontWeight: 600,
                 mb: 3,
-                color: '#2c3e50',
+                color: 'text.primary',
               }}
             >
               Recent Suspicious Transactions

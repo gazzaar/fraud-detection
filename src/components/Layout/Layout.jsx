@@ -1,17 +1,22 @@
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import {
   AppBar,
   Box,
   Button,
   Container,
+  IconButton,
   Toolbar,
   Typography,
 } from '@mui/material';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import styles from './Layout.module.css';
 
 const Layout = () => {
   const { logout } = useAuth();
+  const { mode, toggleTheme } = useTheme();
 
   return (
     <Box
@@ -19,6 +24,7 @@ const Layout = () => {
         display: 'flex',
         minHeight: '101vh',
         flexDirection: 'column',
+        bgcolor: 'background.default',
       }}
     >
       <AppBar position="static">
@@ -57,6 +63,9 @@ const Layout = () => {
               Alerts
             </NavLink>
           </Box>
+          <IconButton color="inherit" onClick={toggleTheme} sx={{ ml: 2 }}>
+            {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
           <Button color="inherit" onClick={logout}>
             Logout
           </Button>
