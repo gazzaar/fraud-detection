@@ -1,79 +1,68 @@
-import { alpha } from '@mui/material';
-
 const PRIMARY = {
-  lighter: '#D1E9FC',
-  light: '#76B0F1',
-  main: '#2065D1',
-  dark: '#103996',
-  darker: '#061B64',
+  lighter: '#D0F2FF',
+  light: '#74CAFF',
+  main: '#1890FF',
+  dark: '#0C53B7',
+  darker: '#04297A',
 };
 
 const SUCCESS = {
-  lighter: '#E9FCD4',
-  light: '#AAF27F',
-  main: '#54D62C',
-  dark: '#229A16',
-  darker: '#08660D',
+  lighter: '#C8FAD6',
+  light: '#5BE49B',
+  main: '#00A76F',
+  dark: '#007867',
+  darker: '#004B50',
 };
 
 const WARNING = {
-  lighter: '#FFF7CD',
-  light: '#FFE16A',
-  main: '#FFC107',
-  dark: '#B78103',
-  darker: '#7A4F01',
+  lighter: '#FFF5CC',
+  light: '#FFD666',
+  main: '#FFAB00',
+  dark: '#B76E00',
+  darker: '#7A4100',
 };
 
 const ERROR = {
-  lighter: '#FFE7D9',
-  light: '#FFA48D',
-  main: '#FF4842',
-  dark: '#B72136',
-  darker: '#7A0C2E',
+  lighter: '#FFE9D5',
+  light: '#FFAC82',
+  main: '#FF5630',
+  dark: '#B71D18',
+  darker: '#7A0916',
 };
 
-const getDesignTokens = (mode) => ({
+const getDesignTokens = () => ({
   palette: {
-    mode,
-    ...(mode === 'light'
-      ? {
-          primary: PRIMARY,
-          success: SUCCESS,
-          warning: WARNING,
-          error: ERROR,
-          background: {
-            default: '#F8F9FA',
-            paper: '#FFFFFF',
-          },
-          text: {
-            primary: '#212B36',
-            secondary: '#637381',
-          },
-        }
-      : {
-          primary: PRIMARY,
-          success: SUCCESS,
-          warning: WARNING,
-          error: ERROR,
-          background: {
-            default: '#161C24',
-            paper: '#212B36',
-          },
-          text: {
-            primary: '#FFFFFF',
-            secondary: '#919EAB',
-          },
-        }),
+    primary: PRIMARY,
+    success: SUCCESS,
+    warning: WARNING,
+    error: ERROR,
+    background: {
+      default: '#F8FAFB',
+      paper: '#FFFFFF',
+    },
+    text: {
+      primary: '#212B36',
+      secondary: '#637381',
+    },
+    grey: {
+      51: '#F9FAFB',
+      100: '#F2F4F7',
+      200: '#E5E7EB',
+      300: '#D1D5DB',
+      400: '#9DA4AE',
+      500: '#6B7280',
+      600: '#4B5563',
+      700: '#374151',
+      800: '#1F2937',
+      900: '#111827',
+    },
   },
   components: {
     MuiPaper: {
       styleOverrides: {
-        root: ({ theme }) => ({
+        root: {
           backgroundImage: 'none',
-          ...(mode === 'dark' && {
-            backgroundColor: alpha(theme.palette.background.paper, 0.9),
-          }),
-        }),
+        },
       },
     },
   },
