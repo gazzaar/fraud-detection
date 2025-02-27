@@ -7,20 +7,20 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import LoginChoice from './LoginChoice';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showChoice, setShowChoice] = useState(false);
+  const navigate = useNavigate();
   const { login } = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Mock login - replace with actual API call
     login({ email });
-    setShowChoice(true);
+    navigate('/');
   };
 
   return (
@@ -82,7 +82,6 @@ const Login = () => {
           </Box>
         </Paper>
       </Box>
-      {showChoice && <LoginChoice />}
     </Container>
   );
 };

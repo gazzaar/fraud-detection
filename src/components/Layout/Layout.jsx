@@ -62,6 +62,14 @@ const Layout = () => {
             >
               Alerts
             </NavLink>
+            <NavLink
+              to="/upload"
+              className={({ isActive }) =>
+                `${styles.navLink} ${isActive ? styles.activeLink : ''}`
+              }
+            >
+              Upload Data
+            </NavLink>
           </Box>
           <IconButton color="inherit" onClick={toggleTheme} sx={{ ml: 2 }}>
             {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}

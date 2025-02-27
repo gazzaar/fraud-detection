@@ -29,9 +29,9 @@ function App() {
               <Route index element={<Dashboard />} />
               <Route path="transactions" element={<TransactionList />} />
               <Route path="alerts" element={<AlertSection />} />
+              <Route path="upload" element={<DataUpload />} />
               <Route path="*" element={<NotFound />} />
             </Route>
-            <Route path="/upload" element={<DataUpload />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
