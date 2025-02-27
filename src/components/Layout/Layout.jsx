@@ -14,59 +14,60 @@ const Layout = () => {
   const { logout } = useAuth();
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        minHeight: '101vh',
+        flexDirection: 'column',
+      }}
+    >
       <AppBar position="static">
-        <Toolbar>
-          <Container
-            maxWidth="lg"
-            sx={{ display: 'flex', alignItems: 'center' }}
+        <Toolbar sx={{ px: 0 }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ ml: 2, mr: 4, fontWeight: 500 }}
           >
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{ mr: 4, fontWeight: 500 }}
+            FDS
+          </Typography>
+          <Box sx={{ flexGrow: 2, display: 'flex', gap: 3 }}>
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) =>
+                `${styles.navLink} ${isActive ? styles.activeLink : ''}`
+              }
             >
-              FDS
-            </Typography>
-            <Box sx={{ flexGrow: 1, display: 'flex', gap: 3 }}>
-              <NavLink
-                to="/"
-                end
-                className={({ isActive }) =>
-                  `${styles.navLink} ${isActive ? styles.activeLink : ''}`
-                }
-              >
-                Dashboard
-              </NavLink>
-              <NavLink
-                to="/transactions"
-                className={({ isActive }) =>
-                  `${styles.navLink} ${isActive ? styles.activeLink : ''}`
-                }
-              >
-                Transactions
-              </NavLink>
-              <NavLink
-                to="/alerts"
-                className={({ isActive }) =>
-                  `${styles.navLink} ${isActive ? styles.activeLink : ''}`
-                }
-              >
-                Alerts
-              </NavLink>
-            </Box>
-            <Button color="inherit" onClick={logout}>
-              Logout
-            </Button>
-          </Container>
+              Dashboard
+            </NavLink>
+            <NavLink
+              to="/transactions"
+              className={({ isActive }) =>
+                `${styles.navLink} ${isActive ? styles.activeLink : ''}`
+              }
+            >
+              Transactions
+            </NavLink>
+            <NavLink
+              to="/alerts"
+              className={({ isActive }) =>
+                `${styles.navLink} ${isActive ? styles.activeLink : ''}`
+              }
+            >
+              Alerts
+            </NavLink>
+          </Box>
+          <Button color="inherit" onClick={logout}>
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
       <Box
         component="main"
         sx={{
-          flexGrow: 1,
-          bgcolor: 'grey.50',
-          p: 3,
+          flexGrow: 2,
+          bgcolor: 'grey.51',
+          p: 4,
         }}
       >
         <Container maxWidth="lg">
