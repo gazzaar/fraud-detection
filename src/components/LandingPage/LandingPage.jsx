@@ -75,20 +75,24 @@ const LandingPage = () => {
         </Box>
 
         {/* Features Section */}
-        <Grid container spacing={4} sx={{ mb: 8 }}>
+        <Grid container spacing={4} sx={{ mb: 2 }}>
           {features.map((feature, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
               <Paper
                 sx={{
-                  p: 3,
-                  height: '100%',
-                  textAlign: 'center',
-                  transition: 'transform 0.2s',
+                  bgcolor: 'white',
+                  borderRadius: '0.75rem',
+                  p: '1.75rem',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  height: '200px',
+                  display: 'flex',
+                  flexDirection: 'column',
                   '&:hover': {
                     transform: 'translateY(-4px)',
                   },
                 }}
-                elevation={2}
+                elevation={0}
               >
                 <Box sx={{ color: 'primary.main', mb: 2 }}>{feature.icon}</Box>
                 <Typography variant="h6" sx={{ mb: 1 }}>
@@ -106,7 +110,19 @@ const LandingPage = () => {
         <Box sx={{ py: 6, textAlign: 'center' }}>
           <Grid container spacing={4}>
             <Grid item xs={12} md={4}>
-              <Paper sx={{ p: 3 }}>
+              <Paper
+                sx={{
+                  bgcolor: 'white',
+                  borderRadius: '0.75rem',
+                  p: '1.75rem',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  height: '100px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+                elevation={0}
+              >
                 <Typography variant="h3" color="primary.main" sx={{ mb: 1 }}>
                   98%
                 </Typography>
@@ -114,7 +130,19 @@ const LandingPage = () => {
               </Paper>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Paper sx={{ p: 3 }}>
+              <Paper
+                sx={{
+                  bgcolor: 'white',
+                  borderRadius: '0.75rem',
+                  p: '1.75rem',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  height: '100px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+                elevation={0}
+              >
                 <Typography variant="h3" color="primary.main" sx={{ mb: 1 }}>
                   24/7
                 </Typography>
@@ -122,7 +150,19 @@ const LandingPage = () => {
               </Paper>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Paper sx={{ p: 3 }}>
+              <Paper
+                sx={{
+                  bgcolor: 'white',
+                  borderRadius: '0.75rem',
+                  p: '1.75rem',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  height: '100px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+                elevation={0}
+              >
                 <Typography variant="h3" color="primary.main" sx={{ mb: 1 }}>
                   1.2M+
                 </Typography>
