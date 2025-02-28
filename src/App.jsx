@@ -11,7 +11,19 @@ import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import DataUpload from './pages/DataUpload';
 
-function App() {
+// Move the data object outside the component
+const mockData = {
+  T123456: [1, { amount: '$2,500', time: '10:30 AM', risk: 'High' }],
+  T123457: [0, { amount: '$150', time: '10:15 AM', risk: 'Low' }],
+  T123458: [1, { amount: '$4,999', time: '10:00 AM', risk: 'Medium' }],
+  T123459: [0, { amount: '$300', time: '09:45 AM', risk: 'Low' }],
+  T123499: [1, { amount: '$700', time: '03:45 AM', risk: 'Low' }],
+  T123489: [0, { amount: '$300', time: '05:45 AM', risk: 'Medium' }],
+  T123460: [1, { amount: '$1,999', time: '09:30 AM', risk: 'High' }],
+  // ... rest of your data ...
+};
+
+const App = () => {
   return (
     <AuthProvider>
       <ThemeProvider>
@@ -26,9 +38,12 @@ function App() {
                 </ProtectedRoute>
               }
             >
-              <Route index element={<Dashboard />} />
-              <Route path="transactions" element={<TransactionList />} />
-              <Route path="alerts" element={<AlertSection />} />
+              <Route index element={<Dashboard data={mockData} />} />
+              <Route
+                path="transactions"
+                element={<TransactionList data={mockData} />}
+              />
+              <Route path="alerts" element={<AlertSection data={mockData} />} />
               <Route path="upload" element={<DataUpload />} />
               <Route path="*" element={<NotFound />} />
             </Route>
@@ -37,6 +52,6 @@ function App() {
       </ThemeProvider>
     </AuthProvider>
   );
-}
+};
 
 export default App;
