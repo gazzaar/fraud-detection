@@ -1,11 +1,7 @@
 // import './AlertSection.css';
 import {
   Container,
-  FormControl,
-  InputLabel,
-  MenuItem,
   Paper,
-  Select,
   Stack,
   Table,
   TableBody,
@@ -20,7 +16,6 @@ import { useState } from 'react';
 import styles from '../Dashboard/Dashboard.module.css';
 
 const AlertSection = ({ data }) => {
-  const [severityFilter, setSeverityFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
 
   // Transform suspicious transactions into alerts
@@ -40,19 +35,6 @@ const AlertSection = ({ data }) => {
       alert.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       alert.id.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'New':
-        return 'error';
-      case 'Under Review':
-        return 'warning';
-      case 'Resolved':
-        return 'success';
-      default:
-        return 'default';
-    }
-  };
 
   return (
     <Container maxWidth="xl">
@@ -76,19 +58,6 @@ const AlertSection = ({ data }) => {
             onChange={(e) => setSearchTerm(e.target.value)}
             sx={{ minWidth: 200 }}
           />
-          <FormControl size="small" sx={{ minWidth: 200 }}>
-            <InputLabel>Severity</InputLabel>
-            <Select
-              value={severityFilter}
-              label="Severity"
-              onChange={(e) => setSeverityFilter(e.target.value)}
-            >
-              <MenuItem value="all">All</MenuItem>
-              <MenuItem value="High">High</MenuItem>
-              <MenuItem value="Medium">Medium</MenuItem>
-              <MenuItem value="Low">Low</MenuItem>
-            </Select>
-          </FormControl>
         </Stack>
 
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
