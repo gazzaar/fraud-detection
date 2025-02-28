@@ -50,16 +50,15 @@ const Dashboard = ({ data }) => {
 
   // Calculate fraudCount once when data changes
   const fraudCount = useMemo(() => {
-    return Object.entries(data).filter(
-      ([_, [fraudIndicator]]) => fraudIndicator === 1
-    ).length;
+    return Object.entries(data).filter(([_, [isFraud]]) => isFraud === true)
+      .length;
   }, [data]);
 
   // Transform data for charts - memoized to prevent recalculation
   const chartData = useMemo(() => {
     // Group transactions by hour for the transaction volume chart
     const hourlyData = {};
-    Object.entries(data).forEach(([_, [fraudIndicator, details]]) => {
+    Object.entries(data).forEach(([_, [isFraud, details]]) => {
       const hour = details.time.split(':')[0];
       const timeKey = `${hour}:00`;
 
@@ -67,7 +66,7 @@ const Dashboard = ({ data }) => {
         hourlyData[timeKey] = { name: timeKey, normal: 0, suspicious: 0 };
       }
 
-      if (fraudIndicator === 1) {
+      if (isFraud === true) {
         hourlyData[timeKey].suspicious += 1;
       } else {
         hourlyData[timeKey].normal += 1;
@@ -76,8 +75,12 @@ const Dashboard = ({ data }) => {
 
     // Calculate risk distribution
     const riskCounts = { Low: 0, Medium: 0, High: 0 };
-    Object.values(data).forEach(([_, details]) => {
-      riskCounts[details.risk] += 1;
+    Object.values(data).forEach(([isFraud]) => {
+      if (isFraud === true) {
+        riskCounts.High += 1;
+      } else {
+        riskCounts.Low += 1;
+      }
     });
 
     return {
@@ -86,11 +89,6 @@ const Dashboard = ({ data }) => {
       ),
       riskDistribution: [
         { name: 'Low Risk', value: riskCounts.Low, color: chartColors.low },
-        {
-          name: 'Medium Risk',
-          value: riskCounts.Medium,
-          color: chartColors.medium,
-        },
         { name: 'High Risk', value: riskCounts.High, color: chartColors.high },
       ],
     };
@@ -99,12 +97,14 @@ const Dashboard = ({ data }) => {
   // Update the recentTransactions to limit to 10 entries
   const recentTransactions = useMemo(() => {
     return Object.entries(data)
-      .map(([id, [fraudIndicator, details]]) => ({
+      .map(([id, [isFraud, details]]) => ({
         id,
-        time: details.time,
+        userName: details.fullname || 'N/A',
         amount: details.amount,
-        status: fraudIndicator === 1 ? 'Suspicious' : 'Normal',
-        risk: details.risk,
+        isFraud: isFraud ? 'Yes' : 'No',
+        reason:
+          details.reason ||
+          (isFraud ? 'Suspicious Activity' : 'Normal Transaction'),
       }))
       .sort(
         (a, b) =>
@@ -145,8 +145,8 @@ const Dashboard = ({ data }) => {
             </div>
             <div className={styles.cardContent}>
               {Object.entries(data).map(
-                ([transactionId, [fraudIndicator, details]]) =>
-                  fraudIndicator === 1 && (
+                ([transactionId, [isFraud, details]]) =>
+                  isFraud === true && (
                     <div key={transactionId} className={styles.alertItem}>
                       <Typography>Transaction ID: {transactionId}</Typography>
                       {/* You can display more details here based on your needs */}
@@ -344,10 +344,11 @@ const Dashboard = ({ data }) => {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Time</TableCell>
+                    <TableCell>Transaction ID</TableCell>
+                    <TableCell>User Name</TableCell>
                     <TableCell>Amount</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Risk Level</TableCell>
+                    <TableCell>Fraud</TableCell>
+                    <TableCell>Reason</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -356,17 +357,16 @@ const Dashboard = ({ data }) => {
                       key={transaction.id}
                       sx={{
                         bgcolor:
-                          transaction.risk === 'High'
+                          transaction.isFraud === 'Yes'
                             ? 'error.lighter'
-                            : transaction.risk === 'Medium'
-                            ? 'warning.lighter'
                             : 'inherit',
                       }}
                     >
-                      <TableCell>{transaction.time}</TableCell>
+                      <TableCell>{transaction.id}</TableCell>
+                      <TableCell>{transaction.userName}</TableCell>
                       <TableCell>{transaction.amount}</TableCell>
-                      <TableCell>{transaction.status}</TableCell>
-                      <TableCell>{transaction.risk}</TableCell>
+                      <TableCell>{transaction.isFraud}</TableCell>
+                      <TableCell>{transaction.reason}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

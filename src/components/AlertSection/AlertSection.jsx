@@ -1,6 +1,5 @@
 // import './AlertSection.css';
 import {
-  Chip,
   Container,
   FormControl,
   InputLabel,
@@ -26,22 +25,20 @@ const AlertSection = ({ data }) => {
 
   // Transform suspicious transactions into alerts
   const alerts = Object.entries(data)
-    .filter(([_, [fraudIndicator]]) => fraudIndicator === 1)
+    .filter(([_, [isFraud]]) => isFraud === true)
     .map(([id, [_, details]]) => ({
       id,
-      timestamp: details.time,
-      description: `Suspicious transaction detected - Amount: ${details.amount}`,
-      severity: details.risk,
-      status: 'New', // You might want to add status to your data object
-      transactionId: id,
+      userName: details.fullname || 'N/A',
+      amount: details.amount,
+      isFraud: 'Yes',
+      reason: details.reason || 'Suspicious Activity',
     }));
 
   const filteredAlerts = alerts.filter(
     (alert) =>
-      (severityFilter === 'all' || alert.severity === severityFilter) &&
-      (searchTerm === '' ||
-        alert.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        alert.transactionId.toLowerCase().includes(searchTerm.toLowerCase()))
+      searchTerm === '' ||
+      alert.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      alert.id.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const getStatusColor = (status) => {
@@ -99,11 +96,11 @@ const AlertSection = ({ data }) => {
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
-                  <TableCell>Time</TableCell>
-                  <TableCell>Description</TableCell>
                   <TableCell>Transaction ID</TableCell>
-                  <TableCell>Severity</TableCell>
-                  <TableCell>Status</TableCell>
+                  <TableCell>User Name</TableCell>
+                  <TableCell>Amount</TableCell>
+                  <TableCell>Fraud</TableCell>
+                  <TableCell>Reason</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -111,33 +108,17 @@ const AlertSection = ({ data }) => {
                   <TableRow
                     key={alert.id}
                     sx={{
-                      bgcolor:
-                        alert.severity === 'High'
-                          ? 'error.lighter'
-                          : alert.severity === 'Medium'
-                          ? 'warning.lighter'
-                          : 'inherit',
+                      bgcolor: 'error.lighter',
                       '&:hover': {
-                        bgcolor:
-                          alert.severity === 'High'
-                            ? 'error.light'
-                            : alert.severity === 'Medium'
-                            ? 'warning.light'
-                            : 'grey.100',
+                        bgcolor: 'error.light',
                       },
                     }}
                   >
-                    <TableCell>{alert.timestamp}</TableCell>
-                    <TableCell>{alert.description}</TableCell>
-                    <TableCell>{alert.transactionId}</TableCell>
-                    <TableCell>{alert.severity}</TableCell>
-                    <TableCell>
-                      <Chip
-                        label={alert.status}
-                        color={getStatusColor(alert.status)}
-                        size="small"
-                      />
-                    </TableCell>
+                    <TableCell>{alert.id}</TableCell>
+                    <TableCell>{alert.userName}</TableCell>
+                    <TableCell>{alert.amount}</TableCell>
+                    <TableCell>{alert.isFraud}</TableCell>
+                    <TableCell>{alert.reason}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

@@ -25,22 +25,26 @@ const TransactionList = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   // Transform data object into array format
-  const transactions = Object.entries(data).map(
-    ([id, [fraudIndicator, details]]) => ({
-      id,
-      time: details.time,
-      amount: details.amount,
-      status: fraudIndicator === 1 ? 'Suspicious' : 'Normal',
-      risk: details.risk,
-    })
-  );
+  const transactions = Object.entries(data).map(([id, [isFraud, details]]) => ({
+    id,
+    userName: details.fullname || 'N/A',
+    amount: details.amount,
+    isFraud: isFraud ? 'Yes' : 'No',
+    reason:
+      details.reason ||
+      (isFraud ? 'Suspicious Activity' : 'Normal Transaction'),
+  }));
 
   const filteredTransactions = transactions.filter(
     (transaction) =>
-      (riskFilter === 'all' || transaction.risk === riskFilter) &&
+      (riskFilter === 'all' ||
+        (riskFilter === 'High'
+          ? transaction.isFraud === 'Yes'
+          : transaction.isFraud === 'No')) &&
       (searchTerm === '' ||
         transaction.amount.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        transaction.id.toLowerCase().includes(searchTerm.toLowerCase()))
+        transaction.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.userName.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
@@ -74,7 +78,6 @@ const TransactionList = ({ data }) => {
             >
               <MenuItem value="all">All</MenuItem>
               <MenuItem value="High">High</MenuItem>
-              <MenuItem value="Medium">Medium</MenuItem>
               <MenuItem value="Low">Low</MenuItem>
             </Select>
           </FormControl>
@@ -85,11 +88,11 @@ const TransactionList = ({ data }) => {
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
-                  <TableCell>Time</TableCell>
+                  <TableCell>Transaction ID</TableCell>
+                  <TableCell>User Name</TableCell>
                   <TableCell>Amount</TableCell>
-                  <TableCell>Merchant</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell>Risk Level</TableCell>
+                  <TableCell>Fraud</TableCell>
+                  <TableCell>Reason</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -98,26 +101,22 @@ const TransactionList = ({ data }) => {
                     key={transaction.id}
                     sx={{
                       bgcolor:
-                        transaction.risk === 'High'
+                        transaction.isFraud === 'Yes'
                           ? 'error.lighter'
-                          : transaction.risk === 'Medium'
-                          ? 'warning.lighter'
                           : 'inherit',
                       '&:hover': {
                         bgcolor:
-                          transaction.risk === 'High'
+                          transaction.isFraud === 'Yes'
                             ? 'error.light'
-                            : transaction.risk === 'Medium'
-                            ? 'warning.light'
                             : 'grey.100',
                       },
                     }}
                   >
-                    <TableCell>{transaction.time}</TableCell>
-                    <TableCell>{transaction.amount}</TableCell>
                     <TableCell>{transaction.id}</TableCell>
-                    <TableCell>{transaction.status}</TableCell>
-                    <TableCell>{transaction.risk}</TableCell>
+                    <TableCell>{transaction.userName}</TableCell>
+                    <TableCell>{transaction.amount}</TableCell>
+                    <TableCell>{transaction.isFraud}</TableCell>
+                    <TableCell>{transaction.reason}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
