@@ -1,10 +1,16 @@
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import styles from './Layout.module.css';
 
 const Layout = () => {
   const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/'); // Navigate to landing page
+  };
 
   return (
     <Box
@@ -59,7 +65,7 @@ const Layout = () => {
               Alerts
             </NavLink>
           </Box>
-          <Button color="inherit" onClick={logout}>
+          <Button color="inherit" onClick={handleLogout}>
             Logout
           </Button>
         </Toolbar>
