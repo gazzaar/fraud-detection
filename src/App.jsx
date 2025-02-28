@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import About from './components/About/About';
 import AlertSection from './components/AlertSection/AlertSection';
 import Login from './components/Auth/Login';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
@@ -292,6 +293,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route
               path="/dashboard"
