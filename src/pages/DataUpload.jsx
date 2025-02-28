@@ -1,14 +1,13 @@
 import { Container } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import FileUpload from '../components/FileUpload/FileUpload';
 
 const DataUpload = () => {
+  const navigate = useNavigate();
+
   const handleUploadSuccess = (data) => {
-    // Handle the successful upload here
-    console.log('Upload successful:', data);
-    // You might want to:
-    // - Show a success message
-    // - Update the UI with the processed data
-    // - Navigate to another page
+    // Navigate to dashboard after successful upload
+    navigate('/dashboard');
   };
 
   return (

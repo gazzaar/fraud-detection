@@ -1,9 +1,17 @@
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import { Button, Paper, Typography } from '@mui/material';
+import {
+  Alert,
+  Button,
+  CircularProgress,
+  Paper,
+  Snackbar,
+  Typography,
+} from '@mui/material';
 import { useState } from 'react';
 
 const FileUpload = ({ onUploadSuccess }) => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -13,19 +21,29 @@ const FileUpload = ({ onUploadSuccess }) => {
     formData.append('file', file);
 
     setLoading(true);
+    setError('');
     try {
       const response = await fetch('your-backend-url/upload', {
         method: 'POST',
         body: formData,
       });
 
+      if (!response.ok) {
+        throw new Error('Upload failed. Please try again.');
+      }
+
       const data = await response.json();
       onUploadSuccess(data);
     } catch (error) {
       console.error('Error uploading file:', error);
+      setError(error.message || 'Failed to upload file. Please try again.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCloseError = () => {
+    setError('');
   };
 
   return (
@@ -40,6 +58,7 @@ const FileUpload = ({ onUploadSuccess }) => {
         flexDirection: 'column',
         alignItems: 'center',
         gap: 2,
+        position: 'relative',
       }}
     >
       <Typography variant="h6" gutterBottom>
@@ -48,12 +67,37 @@ const FileUpload = ({ onUploadSuccess }) => {
       <Button
         component="label"
         variant="contained"
-        startIcon={<UploadFileIcon />}
+        startIcon={
+          loading ? (
+            <CircularProgress size={20} color="inherit" />
+          ) : (
+            <UploadFileIcon />
+          )
+        }
         disabled={loading}
       >
-        Upload CSV
-        <input type="file" accept=".csv" hidden onChange={handleFileUpload} />
+        {loading ? 'Uploading...' : 'Upload CSV'}
+        <input
+          type="file"
+          accept=".csv"
+          hidden
+          onChange={handleFileUpload}
+          disabled={loading}
+        />
       </Button>
+      <Snackbar
+        open={!!error}
+        autoHideDuration={6000}
+        onClose={handleCloseError}
+      >
+        <Alert
+          onClose={handleCloseError}
+          severity="error"
+          sx={{ width: '100%' }}
+        >
+          {error}
+        </Alert>
+      </Snackbar>
     </Paper>
   );
 };
