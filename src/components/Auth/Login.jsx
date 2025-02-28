@@ -13,14 +13,33 @@ import { useAuth } from '../../context/AuthContext';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({ email: '', password: '' });
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Mock login - replace with actual API call
-    login({ email });
-    navigate('/dashboard');
+    const newErrors = { email: '', password: '' };
+
+    if (!validateEmail(email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    if (password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters long';
+    }
+
+    setErrors(newErrors);
+
+    // Only proceed if there are no errors
+    if (!newErrors.email && !newErrors.password) {
+      login({ email });
+      navigate('/dashboard');
+    }
   };
 
   return (
@@ -58,6 +77,8 @@ const Login = () => {
               autoFocus
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              error={!!errors.email}
+              helperText={errors.email}
             />
             <TextField
               margin="normal"
@@ -70,6 +91,8 @@ const Login = () => {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              error={!!errors.password}
+              helperText={errors.password}
             />
             <Button
               type="submit"
