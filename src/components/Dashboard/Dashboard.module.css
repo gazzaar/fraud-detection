@@ -26,6 +26,9 @@
   padding: 1.75rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s, box-shadow 0.2s;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
 }
 
 .card:hover {
@@ -120,4 +123,38 @@
 .riskLow {
   color: #10b981;
   font-weight: 500;
+}
+
+.alertItem {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.alertItem:last-child {
+  border-bottom: none;
+}
+
+.cardContent {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.cardContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cardContent::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.cardContent::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.cardContent::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
