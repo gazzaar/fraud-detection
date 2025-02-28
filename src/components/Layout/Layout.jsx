@@ -42,6 +42,14 @@ const Layout = () => {
               Dashboard
             </NavLink>
             <NavLink
+              to="/upload"
+              className={({ isActive }) =>
+                `${styles.navLink} ${isActive ? styles.activeLink : ''}`
+              }
+            >
+              Upload Data
+            </NavLink>
+            <NavLink
               to="/transactions"
               className={({ isActive }) =>
                 `${styles.navLink} ${isActive ? styles.activeLink : ''}`
@@ -56,14 +64,6 @@ const Layout = () => {
               }
             >
               Alerts
-            </NavLink>
-            <NavLink
-              to="/upload"
-              className={({ isActive }) =>
-                `${styles.navLink} ${isActive ? styles.activeLink : ''}`
-              }
-            >
-              Upload Data
             </NavLink>
           </Box>
           <Button color="inherit" onClick={logout}>
