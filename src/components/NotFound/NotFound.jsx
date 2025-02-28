@@ -9,7 +9,7 @@ const NotFound = () => {
       <p className={styles.message}>
         The page you&apos;re looking for doesn&apos;t exist or has been moved.
       </p>
-      <Link to="/" className={styles.link}>
+      <Link to="/dashboard" className={styles.link}>
         Back to Dashboard
       </Link>
     </div>

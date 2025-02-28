@@ -1,11 +1,4 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  Toolbar,
-  Typography,
-} from '@mui/material';
+import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import styles from './Layout.module.css';
@@ -33,7 +26,7 @@ const Layout = () => {
           </Typography>
           <Box sx={{ flexGrow: 2, display: 'flex', gap: 3 }}>
             <NavLink
-              to="/"
+              to="/dashboard"
               end
               className={({ isActive }) =>
                 `${styles.navLink} ${isActive ? styles.activeLink : ''}`
@@ -42,7 +35,7 @@ const Layout = () => {
               Dashboard
             </NavLink>
             <NavLink
-              to="/upload"
+              to="/dashboard/upload"
               className={({ isActive }) =>
                 `${styles.navLink} ${isActive ? styles.activeLink : ''}`
               }
@@ -50,7 +43,7 @@ const Layout = () => {
               Upload Data
             </NavLink>
             <NavLink
-              to="/transactions"
+              to="/dashboard/transactions"
               className={({ isActive }) =>
                 `${styles.navLink} ${isActive ? styles.activeLink : ''}`
               }
@@ -58,7 +51,7 @@ const Layout = () => {
               Transactions
             </NavLink>
             <NavLink
-              to="/alerts"
+              to="/dashboard/alerts"
               className={({ isActive }) =>
                 `${styles.navLink} ${isActive ? styles.activeLink : ''}`
               }
@@ -71,17 +64,8 @@ const Layout = () => {
           </Button>
         </Toolbar>
       </AppBar>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 2,
-          bgcolor: 'grey.51',
-          p: 4,
-        }}
-      >
-        <Container maxWidth="lg">
-          <Outlet />
-        </Container>
+      <Box component="main" sx={{ flexGrow: 1, py: 3 }}>
+        <Outlet />
       </Box>
     </Box>
   );

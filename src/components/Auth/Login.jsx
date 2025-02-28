@@ -20,7 +20,7 @@ const Login = () => {
     e.preventDefault();
     // Mock login - replace with actual API call
     login({ email });
-    navigate('/');
+    navigate('/dashboard');
   };
 
   return (

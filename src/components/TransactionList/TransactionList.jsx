@@ -1,7 +1,7 @@
 // import './TransactionList.css';
 
 import {
-  Box,
+  Container,
   FormControl,
   InputLabel,
   MenuItem,
@@ -18,6 +18,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import styles from '../Dashboard/Dashboard.module.css';
 
 const TransactionList = ({ data }) => {
   const [riskFilter, setRiskFilter] = useState('all');
@@ -43,80 +44,88 @@ const TransactionList = ({ data }) => {
   );
 
   return (
-    <Box>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Transactions
-      </Typography>
+    <Container maxWidth="xl">
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <Typography variant="h4" component="h1">
+            Transactions
+          </Typography>
+        </div>
 
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 3 }}>
-        <TextField
-          label="Search"
-          variant="outlined"
-          size="small"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          sx={{ minWidth: 200 }}
-        />
-        <FormControl size="small" sx={{ minWidth: 200 }}>
-          <InputLabel>Risk Level</InputLabel>
-          <Select
-            value={riskFilter}
-            label="Risk Level"
-            onChange={(e) => setRiskFilter(e.target.value)}
-          >
-            <MenuItem value="all">All</MenuItem>
-            <MenuItem value="High">High</MenuItem>
-            <MenuItem value="Medium">Medium</MenuItem>
-            <MenuItem value="Low">Low</MenuItem>
-          </Select>
-        </FormControl>
-      </Stack>
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={2}
+          sx={{ mb: 3 }}
+        >
+          <TextField
+            label="Search"
+            variant="outlined"
+            size="small"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            sx={{ minWidth: 200 }}
+          />
+          <FormControl size="small" sx={{ minWidth: 200 }}>
+            <InputLabel>Risk Level</InputLabel>
+            <Select
+              value={riskFilter}
+              label="Risk Level"
+              onChange={(e) => setRiskFilter(e.target.value)}
+            >
+              <MenuItem value="all">All</MenuItem>
+              <MenuItem value="High">High</MenuItem>
+              <MenuItem value="Medium">Medium</MenuItem>
+              <MenuItem value="Low">Low</MenuItem>
+            </Select>
+          </FormControl>
+        </Stack>
 
-      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-        <TableContainer>
-          <Table stickyHeader>
-            <TableHead>
-              <TableRow>
-                <TableCell>Time</TableCell>
-                <TableCell>Amount</TableCell>
-                <TableCell>Merchant</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Risk Level</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredTransactions.map((transaction) => (
-                <TableRow
-                  key={transaction.id}
-                  sx={{
-                    bgcolor:
-                      transaction.risk === 'High'
-                        ? 'error.lighter'
-                        : transaction.risk === 'Medium'
-                        ? 'warning.lighter'
-                        : 'inherit',
-                    '&:hover': {
+        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+          <TableContainer>
+            <Table stickyHeader>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Time</TableCell>
+                  <TableCell>Amount</TableCell>
+                  <TableCell>Merchant</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Risk Level</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredTransactions.map((transaction) => (
+                  <TableRow
+                    key={transaction.id}
+                    sx={{
                       bgcolor:
                         transaction.risk === 'High'
-                          ? 'error.light'
+                          ? 'error.lighter'
                           : transaction.risk === 'Medium'
-                          ? 'warning.light'
-                          : 'grey.100',
-                    },
-                  }}
-                >
-                  <TableCell>{transaction.time}</TableCell>
-                  <TableCell>{transaction.amount}</TableCell>
-                  <TableCell>{transaction.id}</TableCell>
-                  <TableCell>{transaction.status}</TableCell>
-                  <TableCell>{transaction.risk}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-    </Box>
+                          ? 'warning.lighter'
+                          : 'inherit',
+                      '&:hover': {
+                        bgcolor:
+                          transaction.risk === 'High'
+                            ? 'error.light'
+                            : transaction.risk === 'Medium'
+                            ? 'warning.light'
+                            : 'grey.100',
+                      },
+                    }}
+                  >
+                    <TableCell>{transaction.time}</TableCell>
+                    <TableCell>{transaction.amount}</TableCell>
+                    <TableCell>{transaction.id}</TableCell>
+                    <TableCell>{transaction.status}</TableCell>
+                    <TableCell>{transaction.risk}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </div>
+    </Container>
   );
 };
 

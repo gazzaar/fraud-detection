@@ -1,7 +1,7 @@
 // import './AlertSection.css';
 import {
-  Box,
   Chip,
+  Container,
   FormControl,
   InputLabel,
   MenuItem,
@@ -18,6 +18,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import styles from '../Dashboard/Dashboard.module.css';
 
 const AlertSection = ({ data }) => {
   const [severityFilter, setSeverityFilter] = useState('all');
@@ -57,86 +58,94 @@ const AlertSection = ({ data }) => {
   };
 
   return (
-    <Box>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Fraud Alerts
-      </Typography>
+    <Container maxWidth="xl">
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <Typography variant="h4" component="h1">
+            Fraud Alerts
+          </Typography>
+        </div>
 
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 3 }}>
-        <TextField
-          label="Search"
-          variant="outlined"
-          size="small"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          sx={{ minWidth: 200 }}
-        />
-        <FormControl size="small" sx={{ minWidth: 200 }}>
-          <InputLabel>Severity</InputLabel>
-          <Select
-            value={severityFilter}
-            label="Severity"
-            onChange={(e) => setSeverityFilter(e.target.value)}
-          >
-            <MenuItem value="all">All</MenuItem>
-            <MenuItem value="High">High</MenuItem>
-            <MenuItem value="Medium">Medium</MenuItem>
-            <MenuItem value="Low">Low</MenuItem>
-          </Select>
-        </FormControl>
-      </Stack>
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={2}
+          sx={{ mb: 3 }}
+        >
+          <TextField
+            label="Search"
+            variant="outlined"
+            size="small"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            sx={{ minWidth: 200 }}
+          />
+          <FormControl size="small" sx={{ minWidth: 200 }}>
+            <InputLabel>Severity</InputLabel>
+            <Select
+              value={severityFilter}
+              label="Severity"
+              onChange={(e) => setSeverityFilter(e.target.value)}
+            >
+              <MenuItem value="all">All</MenuItem>
+              <MenuItem value="High">High</MenuItem>
+              <MenuItem value="Medium">Medium</MenuItem>
+              <MenuItem value="Low">Low</MenuItem>
+            </Select>
+          </FormControl>
+        </Stack>
 
-      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-        <TableContainer>
-          <Table stickyHeader>
-            <TableHead>
-              <TableRow>
-                <TableCell>Time</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Transaction ID</TableCell>
-                <TableCell>Severity</TableCell>
-                <TableCell>Status</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredAlerts.map((alert) => (
-                <TableRow
-                  key={alert.id}
-                  sx={{
-                    bgcolor:
-                      alert.severity === 'High'
-                        ? 'error.lighter'
-                        : alert.severity === 'Medium'
-                        ? 'warning.lighter'
-                        : 'inherit',
-                    '&:hover': {
+        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+          <TableContainer>
+            <Table stickyHeader>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Time</TableCell>
+                  <TableCell>Description</TableCell>
+                  <TableCell>Transaction ID</TableCell>
+                  <TableCell>Severity</TableCell>
+                  <TableCell>Status</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredAlerts.map((alert) => (
+                  <TableRow
+                    key={alert.id}
+                    sx={{
                       bgcolor:
                         alert.severity === 'High'
-                          ? 'error.light'
+                          ? 'error.lighter'
                           : alert.severity === 'Medium'
-                          ? 'warning.light'
-                          : 'grey.100',
-                    },
-                  }}
-                >
-                  <TableCell>{alert.timestamp}</TableCell>
-                  <TableCell>{alert.description}</TableCell>
-                  <TableCell>{alert.transactionId}</TableCell>
-                  <TableCell>{alert.severity}</TableCell>
-                  <TableCell>
-                    <Chip
-                      label={alert.status}
-                      color={getStatusColor(alert.status)}
-                      size="small"
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-    </Box>
+                          ? 'warning.lighter'
+                          : 'inherit',
+                      '&:hover': {
+                        bgcolor:
+                          alert.severity === 'High'
+                            ? 'error.light'
+                            : alert.severity === 'Medium'
+                            ? 'warning.light'
+                            : 'grey.100',
+                      },
+                    }}
+                  >
+                    <TableCell>{alert.timestamp}</TableCell>
+                    <TableCell>{alert.description}</TableCell>
+                    <TableCell>{alert.transactionId}</TableCell>
+                    <TableCell>{alert.severity}</TableCell>
+                    <TableCell>
+                      <Chip
+                        label={alert.status}
+                        color={getStatusColor(alert.status)}
+                        size="small"
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </div>
+    </Container>
   );
 };
 

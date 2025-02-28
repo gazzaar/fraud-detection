@@ -39,14 +39,14 @@ const LoginChoice = () => {
         <Button
           variant="contained"
           size="large"
-          onClick={() => handleChoice('/')}
+          onClick={() => handleChoice('/dashboard')}
         >
           Go to Dashboard
         </Button>
         <Button
           variant="outlined"
           size="large"
-          onClick={() => handleChoice('/upload')}
+          onClick={() => handleChoice('/dashboard/upload')}
         >
           Upload Historical Data
         </Button>

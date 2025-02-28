@@ -4,6 +4,7 @@ import AlertSection from './components/AlertSection/AlertSection';
 import Login from './components/Auth/Login';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
 import Dashboard from './components/Dashboard/Dashboard';
+import LandingPage from './components/LandingPage/LandingPage';
 import Layout from './components/Layout/Layout';
 import NotFound from './components/NotFound/NotFound';
 import TransactionList from './components/TransactionList/TransactionList';
@@ -50,9 +51,10 @@ const App = () => {
       <ThemeProvider>
         <BrowserRouter>
           <Routes>
+            <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
             <Route
-              path="/"
+              path="/dashboard"
               element={
                 <ProtectedRoute>
                   <Layout />
