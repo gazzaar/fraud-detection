@@ -15,7 +15,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useTheme as useMUITheme } from '@mui/material/styles';
-import { useState } from 'react';
+import { useMemo } from 'react';
 import {
   Area,
   AreaChart,
@@ -33,58 +33,84 @@ import {
 } from 'recharts';
 import styles from './Dashboard.module.css';
 
-const Dashboard = () => {
+const Dashboard = ({ data }) => {
   const theme = useMUITheme();
 
-  // Update chart colors based on theme
-  const chartColors = {
-    normal: theme.palette.primary.main,
-    suspicious: theme.palette.error.main,
-    low: theme.palette.success.main,
-    medium: theme.palette.warning.main,
-    high: theme.palette.error.main,
-  };
+  // Memoize chartColors to prevent recreation on every render
+  const chartColors = useMemo(
+    () => ({
+      normal: theme.palette.primary.main,
+      suspicious: theme.palette.error.main,
+      low: theme.palette.success.main,
+      medium: theme.palette.warning.main,
+      high: theme.palette.error.main,
+    }),
+    [theme.palette]
+  );
 
-  // Mock data - replace with actual API calls
-  const [recentTransactions] = useState([
-    {
-      id: 1,
-      time: '10:30 AM',
-      amount: '$2,500',
-      status: 'Suspicious',
-      risk: 'High',
-    },
-    {
-      id: 2,
-      time: '10:15 AM',
-      amount: '$150',
-      status: 'Normal',
-      risk: 'Low',
-    },
-    {
-      id: 3,
-      time: '10:00 AM',
-      amount: '$4,999',
-      status: 'Suspicious',
-      risk: 'Medium',
-    },
-  ]);
+  // Calculate fraudCount once when data changes
+  const fraudCount = useMemo(() => {
+    return Object.entries(data).filter(
+      ([_, [fraudIndicator]]) => fraudIndicator === 1
+    ).length;
+  }, [data]);
 
-  // Mock data for charts
-  const transactionData = [
-    { name: '00:00', normal: 40, suspicious: 2 },
-    { name: '04:00', normal: 30, suspicious: 1 },
-    { name: '08:00', normal: 60, suspicious: 3 },
-    { name: '12:00', normal: 100, suspicious: 4 },
-    { name: '16:00', normal: 80, suspicious: 2 },
-    { name: '20:00', normal: 50, suspicious: 3 },
-  ];
+  // Transform data for charts - memoized to prevent recalculation
+  const chartData = useMemo(() => {
+    // Group transactions by hour for the transaction volume chart
+    const hourlyData = {};
+    Object.entries(data).forEach(([_, [fraudIndicator, details]]) => {
+      const hour = details.time.split(':')[0];
+      const timeKey = `${hour}:00`;
 
-  const riskDistribution = [
-    { name: 'Low Risk', value: 70, color: chartColors.low },
-    { name: 'Medium Risk', value: 20, color: chartColors.medium },
-    { name: 'High Risk', value: 10, color: chartColors.high },
-  ];
+      if (!hourlyData[timeKey]) {
+        hourlyData[timeKey] = { name: timeKey, normal: 0, suspicious: 0 };
+      }
+
+      if (fraudIndicator === 1) {
+        hourlyData[timeKey].suspicious += 1;
+      } else {
+        hourlyData[timeKey].normal += 1;
+      }
+    });
+
+    // Calculate risk distribution
+    const riskCounts = { Low: 0, Medium: 0, High: 0 };
+    Object.values(data).forEach(([_, details]) => {
+      riskCounts[details.risk] += 1;
+    });
+
+    return {
+      transactionVolume: Object.values(hourlyData).sort((a, b) =>
+        a.name.localeCompare(b.name)
+      ),
+      riskDistribution: [
+        { name: 'Low Risk', value: riskCounts.Low, color: chartColors.low },
+        {
+          name: 'Medium Risk',
+          value: riskCounts.Medium,
+          color: chartColors.medium,
+        },
+        { name: 'High Risk', value: riskCounts.High, color: chartColors.high },
+      ],
+    };
+  }, [data, chartColors]);
+
+  // Update the recentTransactions to use the data from our mock structure
+  const recentTransactions = useMemo(() => {
+    return Object.entries(data)
+      .map(([id, [fraudIndicator, details]]) => ({
+        id,
+        time: details.time,
+        amount: details.amount,
+        status: fraudIndicator === 1 ? 'Suspicious' : 'Normal',
+        risk: details.risk,
+      }))
+      .sort(
+        (a, b) =>
+          new Date('1970/01/01 ' + b.time) - new Date('1970/01/01 ' + a.time)
+      );
+  }, [data]);
 
   return (
     <Container maxWidth="xl">
@@ -113,13 +139,20 @@ const Dashboard = () => {
             <div className={styles.cardHeader}>
               <WarningIcon className={styles.cardIcon} color="error" />
               <Typography className={styles.cardTitle}>
-                Active Alerts
+                Active Alerts ({fraudCount})
               </Typography>
             </div>
-            <Typography className={styles.cardValue}>5</Typography>
-            <Typography className={styles.cardSubtext}>
-              Requires immediate attention
-            </Typography>
+            <div className={styles.cardContent}>
+              {Object.entries(data).map(
+                ([transactionId, [fraudIndicator, details]]) =>
+                  fraudIndicator === 1 && (
+                    <div key={transactionId} className={styles.alertItem}>
+                      <Typography>Transaction ID: {transactionId}</Typography>
+                      {/* You can display more details here based on your needs */}
+                    </div>
+                  )
+              )}
+            </div>
           </div>
 
           <div className={styles.card}>
@@ -161,7 +194,7 @@ const Dashboard = () => {
               Transaction Volume (24h)
             </Typography>
             <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={transactionData}>
+              <AreaChart data={chartData.transactionVolume}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />
@@ -213,7 +246,7 @@ const Dashboard = () => {
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie
-                    data={riskDistribution}
+                    data={chartData.riskDistribution}
                     dataKey="value"
                     nameKey="name"
                     cx="50%"
@@ -222,7 +255,7 @@ const Dashboard = () => {
                     fill="#8884d8"
                     label
                   >
-                    {riskDistribution.map((entry, index) => (
+                    {chartData.riskDistribution.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>

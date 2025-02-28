@@ -19,45 +19,27 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
-const TransactionList = () => {
+const TransactionList = ({ data }) => {
   const [riskFilter, setRiskFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Mock data - replace with API call
-  const transactions = [
-    {
-      id: 1,
-      time: '2024-03-20 10:30 AM',
-      amount: '$2,500',
-      merchant: 'Amazon',
-      status: 'Suspicious',
-      risk: 'High',
-    },
-    {
-      id: 2,
-      time: '2024-03-20 10:15 AM',
-      amount: '$150',
-      merchant: 'Walmart',
-      status: 'Normal',
-      risk: 'Low',
-    },
-    {
-      id: 3,
-      time: '2024-03-20 10:00 AM',
-      amount: '$4,999',
-      merchant: 'Best Buy',
-      status: 'Suspicious',
-      risk: 'Medium',
-    },
-    // Add more mock transactions as needed
-  ];
+  // Transform data object into array format
+  const transactions = Object.entries(data).map(
+    ([id, [fraudIndicator, details]]) => ({
+      id,
+      time: details.time,
+      amount: details.amount,
+      status: fraudIndicator === 1 ? 'Suspicious' : 'Normal',
+      risk: details.risk,
+    })
+  );
 
   const filteredTransactions = transactions.filter(
     (transaction) =>
       (riskFilter === 'all' || transaction.risk === riskFilter) &&
       (searchTerm === '' ||
-        transaction.merchant.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        transaction.amount.toLowerCase().includes(searchTerm.toLowerCase()))
+        transaction.amount.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.id.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
@@ -125,7 +107,7 @@ const TransactionList = () => {
                 >
                   <TableCell>{transaction.time}</TableCell>
                   <TableCell>{transaction.amount}</TableCell>
-                  <TableCell>{transaction.merchant}</TableCell>
+                  <TableCell>{transaction.id}</TableCell>
                   <TableCell>{transaction.status}</TableCell>
                   <TableCell>{transaction.risk}</TableCell>
                 </TableRow>

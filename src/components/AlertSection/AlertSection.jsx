@@ -19,37 +19,21 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
-const AlertSection = () => {
+const AlertSection = ({ data }) => {
   const [severityFilter, setSeverityFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Mock data - replace with API call
-  const alerts = [
-    {
-      id: 1,
-      timestamp: '2024-03-20 10:30 AM',
-      description: 'Multiple high-value transactions in short period',
-      severity: 'High',
-      status: 'New',
-      transactionId: 'TXN123456',
-    },
-    {
-      id: 2,
-      timestamp: '2024-03-20 10:15 AM',
-      description: 'Unusual location for transaction',
-      severity: 'Medium',
-      status: 'Under Review',
-      transactionId: 'TXN123457',
-    },
-    {
-      id: 3,
-      timestamp: '2024-03-20 10:00 AM',
-      description: 'Transaction pattern deviation detected',
-      severity: 'Low',
-      status: 'Resolved',
-      transactionId: 'TXN123458',
-    },
-  ];
+  // Transform suspicious transactions into alerts
+  const alerts = Object.entries(data)
+    .filter(([_, [fraudIndicator]]) => fraudIndicator === 1)
+    .map(([id, [_, details]]) => ({
+      id,
+      timestamp: details.time,
+      description: `Suspicious transaction detected - Amount: ${details.amount}`,
+      severity: details.risk,
+      status: 'New', // You might want to add status to your data object
+      transactionId: id,
+    }));
 
   const filteredAlerts = alerts.filter(
     (alert) =>
