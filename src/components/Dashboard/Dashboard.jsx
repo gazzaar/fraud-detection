@@ -96,7 +96,7 @@ const Dashboard = ({ data }) => {
     };
   }, [data, chartColors]);
 
-  // Update the recentTransactions to use the data from our mock structure
+  // Update the recentTransactions to limit to 10 entries
   const recentTransactions = useMemo(() => {
     return Object.entries(data)
       .map(([id, [fraudIndicator, details]]) => ({
@@ -109,7 +109,8 @@ const Dashboard = ({ data }) => {
       .sort(
         (a, b) =>
           new Date('1970/01/01 ' + b.time) - new Date('1970/01/01 ' + a.time)
-      );
+      )
+      .slice(0, 10); // Limit to 10 most recent transactions
   }, [data]);
 
   return (
