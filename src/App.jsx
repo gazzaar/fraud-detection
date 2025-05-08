@@ -292,11 +292,11 @@ const App = () => {
       <ThemeProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/login" element={<Login />} />
+            <Route path='/' element={<LandingPage />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/login' element={<Login />} />
             <Route
-              path="/dashboard"
+              path='/dashboard'
               element={
                 <ProtectedRoute>
                   <Layout />
@@ -305,12 +305,12 @@ const App = () => {
             >
               <Route index element={<Dashboard data={mockData} />} />
               <Route
-                path="transactions"
+                path='transactions'
                 element={<TransactionList data={mockData} />}
               />
-              <Route path="alerts" element={<AlertSection data={mockData} />} />
-              <Route path="upload" element={<DataUpload />} />
-              <Route path="*" element={<NotFound />} />
+              <Route path='alerts' element={<AlertSection data={mockData} />} />
+              <Route path='upload' element={<DataUpload />} />
+              <Route path='*' element={<NotFound />} />
             </Route>
           </Routes>
         </BrowserRouter>

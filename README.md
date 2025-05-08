@@ -1,54 +1,115 @@
-# Fraud Detection System
+# Fraud Detection System 🛡️
 
-### API docs:
+A modern, real-time fraud detection system designed to help businesses identify and prevent fraudulent transactions through advanced analytics and machine learning.
 
-#### Auth Endpoints
+## 📸 Demo
 
-- POST /api/auth/login
-- POST /api/auth/logout
+### Landing page
 
-#### Transaction Endpoints
+![Landing Page](assets/demo1.png)
 
+### More About
+
+![More About](assets/demo-2.png)
+
+### Dashboard Overview
+
+![Dashboard Overview](assets/demo3.png)
+
+## 🚀 Features
+
+- Real-time transaction monitoring
+- Risk level assessment
+- Advanced analytics dashboard
+- Customizable alert system
+- CSV data upload support
+- Historical transaction analysis
+- Trend visualization
+- Alert management workflow
+
+## 🛠️ API Documentation
+
+### Authentication Endpoints
+
+#### Login
+
+```http
+POST /api/auth/login
+```
+
+#### Logout
+
+```http
+POST /api/auth/logout
+```
+
+### Transaction Endpoints
+
+#### Get Transactions
+
+```http
 GET /api/transactions
+```
 
-- Query parameters:
+Query Parameters:
 
-  - risk_level (optional)
-  - search_term (optional)
-  - start_date (optional)
-  - end_date (optional)
+- `risk_level` (optional) - Filter by risk level
+- `search_term` (optional) - Search transactions
+- `start_date` (optional) - Filter from date
+- `end_date` (optional) - Filter to date
 
-- POST /api/transactions/upload
+#### Upload Transactions
 
-- For uploading CSV data (referenced in FileUpload component)
+```http
+POST /api/transactions/upload
+```
 
-#### Alert Endpoints
+Supports CSV file upload for bulk transaction processing.
 
-- GET /api/alerts
+### Alert Endpoints
 
-- Query parameters:
+#### Get Alerts
 
-  - severity (optional)
-  - search_term (optional)
-  - status (optional)
+```http
+GET /api/alerts
+```
 
-- PATCH /api/alerts/:id/status
+Query Parameters:
 
-- For updating alert status (New, Under Review, Resolved)
+- `severity` (optional) - Filter by alert severity
+- `search_term` (optional) - Search alerts
+- `status` (optional) - Filter by alert status
 
-#### Dashboard Statistics Endpoints
+#### Update Alert Status
 
-- GET /api/stats/overview
+```http
+PATCH /api/alerts/:id/status
+```
 
-- Returns:
+Update alert status (New, Under Review, Resolved)
 
-  - detection_rate
-  - fraud_count
-  - transaction_volume
-  - risk_distribution
+### Dashboard Statistics
 
-- GET /api/stats/trends
+#### Overview Statistics
 
-- Returns:
-  - transaction_volume_by_hour
-  - detection_accuracy_trend
+```http
+GET /api/stats/overview
+```
+
+Returns:
+
+- Detection rate
+- Fraud count
+- Transaction volume
+- Risk distribution
+
+#### Trend Analysis
+
+```http
+GET /api/stats/trends
+```
+
+Returns:
+
+- Transaction volume by hour
+- Detection accuracy trend
